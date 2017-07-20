@@ -1,0 +1,212 @@
+{% extends "::backend_layout.html.twig" %}
+
+{% block title %}Edit Profile :: Sugarlogger{% endblock %}
+
+{% form_theme form _self %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/js/plugins/select2/select2.min.css') }}" type="text/css" rel="stylesheet" media="screen" />
+    <link href="{{ asset("assets/js/plugins/dropzonejs/dropzone.min.css")}}" rel="stylesheet">
+    <style type="text/css">
+    .form-material input.form-control[readonly],
+    .form-material input.form-control[disabled]{
+    	background-color: #eee;
+    	border: none;
+    	pointer-events: none;
+    }
+    .dropzone.dz-clickable .dz-success-mark * {
+    	fill: green;
+    }
+    .dropzone .dz-preview .dz-progress{
+        background: none;
+    }
+    </style>
+{% endblock %}
+{% block form_row %}
+
+    <div class="form-group">
+        <div class="col-xs-12">
+            <div class="form-material form-material-success">
+                {{ form_widget(form) }}
+                {{ form_label(form) }}
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+	<!-- Page Header -->
+	<div class="content bg-gray-lighter">
+	    <div class="row items-push">
+	        <div class="col-sm-7">
+	            <h1 class="page-heading">Edit Profile</h1>
+	            <em>#{{ regNo }}</em>
+	        </div>		        
+	    </div>
+	</div>
+	<!-- END Page Header -->
+
+	<!-- Page Content -->
+	<div class="content overflow-hidden">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- Register Block -->
+                <div class="block block-themed animated fadeIn">
+                    <div class="block-content block-content-full block-content-narrow">
+                        <!-- Register Title -->
+                        {# <h1 class="h2 font-w600 push-30-t push-5">Edit Profile</h1> #}
+
+                        <!-- END Register Title -->
+
+                        <!-- Register Form -->
+                        <!-- jQuery Validation (.js-validation-register class is initialized in js/pages/base_pages_register.js) -->
+                        <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                        {{ form_start(form, {'attr': {'class': 'js-validation-register form-horizontal push-50-t push-50'}}) }}
+                        <div class="row">
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.name) }}
+                        	</div>
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.email) }}
+                        	</div>
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.mobile) }}
+                        	</div>
+                        </div>
+                        <div class="row">
+                        	<div class="col-xs-12">
+                        		{{ form_row(form.address) }}                        		
+                        	</div>
+                        </div>
+                        <div class="row">
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.city) }}
+                        	</div>
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.pincode) }}		
+                        	</div>
+                        	<div class="col-xs-4">
+                        		{{ form_row(form.doctor) }}                        		
+                        	</div>
+                        </div>
+                        <div class="form-group">
+                        	<div class="col-lg-4 col-md-6">
+                        		<label>Company Logo</label> <small>(optional)</small>
+                        		<div id="logo" class="dropzone"></div>
+                        	</div>
+                        	<div class="col-lg-4 col-md-6">
+                        		<label>Doctor's Signature</label>
+                        		<div id="signature" class="dropzone"></div>
+                            </div>
+                            <div class="col-xs-12">
+                                <i>(Note: Allowed image file type: PNG or JPG. Max file size: 1MB each.)</i>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-6 col-md-5">
+                                <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-check push-5-r"></i> Save</button>
+                                <a class="btn btn-sm btn-danger" href="{{ path('dashboard_render') }}"><i class="fa fa-close push-5-r"></i> Cancel</a>
+                            </div>
+                        </div>
+                        {{ form_end(form) }}
+                        <!-- END Register Form -->
+                    </div>
+                </div>
+                <!-- END Register Block -->
+            </div>
+        </div>
+    </div>
+	<!-- END Page Content -->
+
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/core/underscore-min.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset("assets/js/plugins/dropzonejs/dropzone.min.js") }}"></script>
+    <script src="{{ asset('assets/js/plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/base_pages_edit_profile.js') }}"></script>
+
+    <!-- Page JS Code -->
+    <script type="text/javascript">
+        var TWIG = TWIG || {};
+        Dropzone.autoDiscover = false;
+        function DzObj (el) {
+        	return {
+	            url: "{{ url('upload_attachment') }}",
+	            paramName: "attachment", // The name that will be used to transfer the file
+	            maxFiles: 1,
+	            maxFilesize: 10, // MB
+	            maxfilesexceeded: function(file) {
+                    swal("Warning", "You can upload only 1 image!", "warning");
+	            },
+	            addRemoveLinks: true,
+	            dictRemoveFile: 'Remove',
+	            accept: function (file, done) {
+	                var allowedImageTypes = ['image/jpeg', 'image/png'];
+
+	                if ($.inArray(file.type, allowedImageTypes) != -1) {
+	                    done();
+	                }
+	                else {
+	                    done("Invalid file type. The file won't be uploaded.");
+	                }
+	            },
+	            success: function (file, response) {
+	                file.previewElement.id = response.attachment_id;
+	                file.previewElement.className += ' dz-success';
+	                $(el).val(response.attachment_id);
+	                $('#signature').next().remove();
+	            },
+	            error: function (file, response) {
+	                // alert("Unable to upload file. Please check if it is a file.");
+	                this.removeFile(file);
+	            },
+	            removedfile: function (file) {
+	                var id = file.previewElement.id;
+	                var _ref;
+	               	$.ajax({
+	                    type: 'POST',
+	                    url: '{{ url('delete_attachment') }}',
+	                    data: "id=" + id,
+	                    dataType: 'json',
+	                    success: function (response) {
+	                        $(el).val('');
+	                        if (response.msg == 'success') {
+	                            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+	                        } else {
+	                            // alert("File not removed successfully.");
+	                            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+	                        }
+	                    }
+	                });
+	            }
+            }
+        };
+
+        var logoDz = new Dropzone("#logo", DzObj('#lab_edit_logo'));
+        var signDz = new Dropzone("#signature", DzObj('#lab_edit_signature'));
+
+        if($('#lab_edit_logo').val() != ''){
+            var mockFile = { name: "Logo.jpg", size: 12345 };
+            logoDz.emit("addedfile", mockFile);
+            logoDz.emit("thumbnail", mockFile, "{{asset(img_path ~ form.vars.value.logo)}}");    
+        }
+        if($('#lab_edit_signature').val() != ''){
+            var mockFile = { name: "Signature.jpg", size: 12345 };
+            signDz.emit("addedfile", mockFile);
+            signDz.emit("thumbnail", mockFile, "{{asset(img_path ~ form.vars.value.signature)}}");    
+        }
+        
+    </script>
+{% endblock %}

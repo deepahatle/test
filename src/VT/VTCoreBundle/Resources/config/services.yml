@@ -1,0 +1,18 @@
+services:
+    vt.entityManager:
+        class: VT\VTCoreBundle\Services\Doctrine\VTEntityManager
+        arguments:
+            - "@doctrine.orm.entity_manager"
+
+    vt.aclmanager:
+        class: VT\VTCoreBundle\Services\Acl\ACLManager
+
+    vt.image_type_extension:
+        class: VT\VTCoreBundle\Form\Extension\ImageTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FileType }
+
+
+#    vt_core.example:
+#        class: VT\VTCoreBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

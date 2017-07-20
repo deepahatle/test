@@ -1,0 +1,16 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: sugarlogger_backend
+    database_user: sugaradmin
+    database_password: sugaradmin
+
+    mailer_transport: gmail
+    # mailer_host: smtp.gmail.com
+    # mailer_port: 587
+    # mailer_encryption: tls
+    mailer_user: info.logicloop@gmail.com
+    mailer_password: infoll@3214
+
+    secret: ThisTokenIsNotSoSecretChangeIt

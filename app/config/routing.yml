@@ -1,0 +1,34 @@
+general:
+    resource: "@GeneralBundle/Controller"
+    type:     annotation
+
+payment:
+    resource: "@PaymentBundle/Controller"
+    type:     annotation
+
+home:
+    resource: "@HomeBundle/Controller"
+    type:     annotation
+
+login:
+    resource: "@LoginBundle/Controller"
+    type:     annotation
+
+vt_core:
+    resource: "@VTCoreBundle/Controller"
+    type:     annotation
+
+labs:
+    resource: "@LabsBundle/Controller"
+    type:     annotation
+
+tests:
+    resource: "@TestsBundle/Controller"
+    type:     annotation
+
+users:
+    resource: "@UsersBundle/Controller"
+    type:     annotation
+
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"

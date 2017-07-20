@@ -1,0 +1,45 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+	<div class="content bg-white text-center pulldown overflow-hidden">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
+
+				{% if response == 'success' %}
+					<h1 class="font-s64 font-w300 text-flat animated zoomInDown">{{ responseData.status | upper }}</h1>
+					<h2 class="h3 font-w300 push-30 animated fadeInUp">
+						Your transaction id for this transaction is <em>{{ responseData.txnid }}</em><br> 
+						We have received a payment of Rs. <em>{{ responseData.amount }}</em><br>
+					</h2>
+					<h2 class="h3 font-w500 text-flat push-5">Click below to login and access our services.</h2>
+				{% elseif response == 'failure' %}
+					<h1 class="font-s64 font-w300 text-city animated bounceIn">{{ responseData.status | upper }}</h1>
+					<h2 class="h3 font-w300 push-50 animated fadeInUp">Your transaction id for this transaction is <em>{{ responseData.txnid }}</em>. <br>You may try making the payment again after some time.</h2>
+				{% else %}					
+					<h2 class="h3 font-w300 push-50 animated fadeInUp">Invalid Transaction. Please try again</h2>
+				{% endif %}
+				<!-- Error Titles -->
+				
+				<!-- END Error Titles -->
+
+				<!-- Search Form -->
+				<form class="form-horizontal push-50" action="base_pages_search.html" method="post">
+					<div class="form-group">
+						<div class="col-sm-6 col-sm-offset-3">
+							<div class="input-group input-group-lg">
+								<div class="input-group-btn">
+									{% if response == 'success' %}									
+										<a href="{{ path('backend_admin_login') }}" class="btn btn-primary"><i class="si si-login pull-right"></i>Login</a>
+									{% else %}
+										<a href="{{ path('home_render') }}" class="btn btn-default">Home</a>										
+									{% endif %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+				<!-- END Search Form -->
+			</div>
+		</div>
+	</div>
+{% endblock %}

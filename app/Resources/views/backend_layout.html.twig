@@ -1,0 +1,118 @@
+{% extends "::base.html.twig" %}
+
+{% block favicon %}
+    <link rel="shortcut icon" href="{{ asset("assets/img/favicons/favicon.png") }}">
+
+    <link rel="icon" type="image/png" href="{{ asset("assets/img/favicons/favicon-16x16.png") }}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{{ asset("assets/img/favicons/favicon-32x32.png") }}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{{ asset("assets/img/favicons/favicon-96x96.png") }}" sizes="96x96">
+    <link rel="icon" type="image/png" href="{{ asset("assets/img/favicons/favicon-160x160.png") }}" sizes="160x160">
+    <link rel="icon" type="image/png" href="{{ asset("assets/img/favicons/favicon-192x192.png") }}" sizes="192x192">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ asset("assets/img/favicons/apple-touch-icon-57x57.png") }}">
+    <link rel="apple-touch-icon" sizes="60x60" href="{{ asset("assets/img/favicons/apple-touch-icon-60x60.png") }}">
+    <link rel="apple-touch-icon" sizes="72x72" href="{{ asset("assets/img/favicons/apple-touch-icon-72x72.png") }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset("assets/img/favicons/apple-touch-icon-76x76.png") }}">
+    <link rel="apple-touch-icon" sizes="114x114" href="{{ asset("assets/img/favicons/apple-touch-icon-114x114.png") }}">
+    <link rel="apple-touch-icon" sizes="120x120" href="{{ asset("assets/img/favicons/apple-touch-icon-120x120.png") }}">
+    <link rel="apple-touch-icon" sizes="144x144" href="{{ asset("assets/img/favicons/apple-touch-icon-144x144.png") }}">
+    <link rel="apple-touch-icon" sizes="152x152" href="{{ asset("assets/img/favicons/apple-touch-icon-152x152.png") }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset("assets/img/favicons/apple-touch-icon-180x180.png") }}">
+{% endblock %}
+
+{% block title %}Welcome to SugarLogger - Dashboard{% endblock %}
+
+{% block meta %}
+    <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block stylesheets_custom %}
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/sweetalert/sweetalert.min.css') }}">
+    <style type="text/css">
+        .relative-block{
+            z-index: 1;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div id="page-container" class="sidebar-l sidebar-o side-scroll header-navbar-fixed">
+    
+        {{ render(controller('GeneralBundle:General:generalRender', {'_route' : app.request.attributes.get('_route'), '_route_params' : app.request.attributes.get('_route_params')})) }}
+        <!-- Main Container -->
+        <main id="main-container">
+            {% block content %}{% endblock %}
+        </main>
+        <!-- END Main Container -->
+
+        <!-- Footer -->
+        <footer id="page-footer" class="content-mini content-mini-full font-s12 bg-gray-lighter clearfix">            
+            <div class="pull-left">                
+                <a class="font-w600" href="{{ path('home_render') }}" target="_blank">SugarLogger</a> &copy; <span class="js-year-copy"></span>
+            </div>
+        </footer>
+        <!-- END Footer -->
+    </div>
+
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/core/jquery.slimscroll.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.scrollLock.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.appear.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.countTo.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/jquery.placeholder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/js.cookie.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/sweetalert/sweetalert.min.js') }}"></script>    
+    <script src="{{ asset("assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/common.js') }}"></script>
+
+    <script type="text/javascript">    
+        $(function(){
+
+            var msg = '';
+
+            {% if app.session.flashBag.has('success') %}
+                {% for msg in app.session.flashBag.get('success') %}
+                    msg = "{{ msg }}";
+                {% endfor %}
+            {% endif %}
+
+            if(msg)
+                $.notify({
+                    icon: "fa fa-check",
+                    message: msg,
+                    url: ''
+                },
+                {
+                    element: 'body',
+                    type: "success",
+                    allow_dismiss: true,
+                    newest_on_top: true,
+                    showProgressbar: false,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    },
+                    offset: 30,
+                    spacing: 10,
+                    z_index: 1033,
+                    delay: 5000,
+                    timer: 1000,
+                    animate: {
+                        enter: 'animated fadeIn',
+                        exit: 'animated fadeOutDown'
+                    }
+                });
+        });
+    </script>
+{% endblock %}

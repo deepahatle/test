@@ -1,0 +1,177 @@
+{% extends "::backend_layout.html.twig" %}
+
+{% block title %}Dashboard :: Sugarlogger{% endblock %}
+
+{% block content %}
+
+    <!-- Page Header -->
+    <div class="content bg-gray-lighter">
+        <div class="row items-push">
+            <div class="col-sm-7">
+                <h1 class="h2 animated zoomIn">Dashboard</h1>
+                <h2 class="h5 animated zoomIn">Welcome, <strong>{{user}}</strong></h2>                
+            </div>            
+        </div>
+    </div>
+    <!-- END Page Header -->
+
+    <!-- Page Content -->
+    <div class="content">
+        <!-- My Block -->
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="block block-themed">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Patient Visits</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row items-push">
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('patient_record') }}" class="btn-minw btn btn-primary">List of visits</a>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('add_patient_record') }}" class="btn-minw btn btn-primary">Add visit</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="block block-themed">
+                    <div class="block-header bg-primary-dark"> 
+                        <h3 class="block-title">Tests</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row items-push">
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('test_render') }}" class="btn-minw btn btn-primary">List of tests</a>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('add_test_render') }}" class="btn-minw btn btn-primary">Add test</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="block block-themed">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Doctors</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row items-push">
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('doctor_render') }}" class="btn-minw btn btn-primary">List of doctors</a>
+                            </div>
+                            <div class="col-xs-6 text-center">
+                                <a href="{{ path('add_doctor_render') }}" class="btn-minw btn btn-primary">Add doctor</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            {% if pendingPayments is not empty %}
+            <div class="col-sm-5">
+                <div class="block block-bordered block-themed">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Pending Payments</h3>
+                    </div>
+                    <div class="block-content" style="padding: 0;">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-hover js-dataTable-full dataTable no-footer" style="margin:0;">
+                                <thead>
+                                    <tr role="row">                                        
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                        <th>Mobile No.</th>
+                                        <th>Amt.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for patient in pendingPayments %}
+                                        <tr>
+                                            <td>{{ patient.date }}</td> 
+                                            <td><a target="_blank" href="{{ url('patient_record') }}?k={{ patient.name }}">{{ patient.name }}</a></td> 
+                                            <td>{{ patient.mobile }}</td> 
+                                            <td>{{ patient.netAmount - patient.paidAmount }}</td> 
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if recentPatients is not empty %}
+            <div class="col-sm-4">
+                <div class="block block-bordered block-themed">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Recent Patients</h3>
+                    </div>
+                    <div class="block-content" style="padding: 0;">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-hover js-dataTable-full dataTable no-footer" style="margin:0;">
+                                <thead>
+                                    <tr role="row">                                        
+                                        <th>Name</th>
+                                        <th width="100">Mobile No.</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for patient in recentPatients %}
+                                        <tr>
+                                            <td><a target="_blank" href="{{ url('patient_record') }}?k={{ patient.name }}">{{ patient.name }}</a></td> 
+                                            <td>{{ patient.mobile }}</td> 
+                                            {% set label = patient.status == 'Sample Collected' ? 'label-info' %}
+                                            {% set label = patient.status == 'Sample under testing' ? 'label-danger' : label %}
+                                            {% set label = patient.status == 'Sample testing done' ? 'label-warning' : label %}
+                                            {% set label = patient.status == 'Report Delivered' ? 'label-success' : label %}
+                                            <td><span class="label {{label}}">{{ patient.status }}</span></td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if samplesUnderTesting is not empty %}
+            <div class="col-sm-3">
+                <div class="block block-bordered block-themed">
+                    <div class="block-header bg-primary-dark">
+                        <h3 class="block-title">Samples under testing</h3>
+                    </div>
+                    <div class="block-content" style="padding: 0;">
+                        <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                            <table class="table table-hover js-dataTable-full dataTable no-footer" style="margin:0;">
+                                <thead>
+                                    <tr role="row">                                        
+                                        <th>Date</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for patient in samplesUnderTesting %}
+                                        <tr>
+                                            <td>{{ patient.date }}</td> 
+                                            <td><a target="_blank" href="{{ url('patient_record') }}?k={{ patient.name }}">{{ patient.name }}</a></td> 
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <!-- END My Block -->
+    </div>
+    <!-- END Page Content -->
+    
+{% endblock %}

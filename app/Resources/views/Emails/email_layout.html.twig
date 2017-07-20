@@ -1,0 +1,55 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin: 0; padding: 0; color:#606163; font-family:Arial; font-size: 12px;">
+<table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse;">
+    <tr>
+        <td align="center" style="padding: 0px 24px;">
+            <table align="center" border="0" cellpadding="0" cellspacing="0" width="534" style="border-collapse: collapse; border: 1px solid #dbddde;">
+                <tr>
+                    <td style="background-color: #FFF; border-right: 1px solid #dbddde; border-left: 1px solid #dbddde; border-bottom: 3px solid #FF6B6B;">
+                        <table >
+                            <tr>
+                                <td style="padding: 8px 20px;">
+                                    <img src="http://sugarlogger.com/assets/img/logo.png" alt="sugarlogger" style="max-height: 40px; max-width: 160px;" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                {% block email_content %}{% endblock %}
+                <tr>
+                    <td style="padding: 8px 20px;">
+                        Thanks and Regards,<br />
+                        sugarlogger.com
+                        {% block email_disclaimer %}
+                            <p style="font-size: 10px; margin-top: 15px; color: #777;">
+                                Disclaimer : This is a system generated mail. Please do not reply.<br />
+                                In case of any issue, please contact Helpdesk at?| support@sugarlogger.com<br />
+                            </p>
+                        {% endblock %}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 20px;">
+                        <p style="border-top: 1px solid #dedede; margin: 0px 0px 10px;"></p>
+                        <table style="font-size: 11px;">
+                            <tr>
+                                <td width="300">
+                                    &copy; <a target="_blank" rel="nofollow" href="http://www.sugarlogger.com/" style="color: #FF6B6B;">sugarlogger.com</a>
+                                    All rights reserved.
+                                </td>
+                            </tr>
+                        </table>
+
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

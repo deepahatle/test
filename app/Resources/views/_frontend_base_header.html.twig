@@ -1,0 +1,523 @@
+<style type="text/css">
+    body {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #717171;
+        background-color: #ffffff;
+        overflow-x: hidden;
+        padding: 0;
+        margin: 0;
+        font-family: 'Open Sans';
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    .fright {
+        float: right;
+    }
+
+    .fleft {
+        float: left;
+    }
+
+    .overflow_hidden {
+        overflow-x: hidden;
+    }
+
+    #banner {
+        position: relative;
+        background: url("{{asset("assets/img/banner1.jpg")}}") no-repeat;
+        background-size: cover;
+        background-position: center center;
+        height: 500px;
+        margin-top: 70px;
+    }
+
+    #banner:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .login-header {
+        background: #2F2F2F;
+        text-transform: uppercase;
+    }
+
+    .login-header a {
+        color: #fff;
+    }
+
+    .login {
+        display: inline-block;
+        padding: 5px 20px;
+    }
+
+    .register {
+        display: inline-block;
+        padding: 5px 20px;
+    }
+
+    .fa {
+        color: #E25B58;
+    }
+
+    .main-header {
+        position: relative;
+        height: 70px;
+    }
+
+    .fixed {
+        top: 0;
+        position: fixed;
+        width: 100%;
+        display: block;
+        z-index: 1;
+        background-color: #ffffff;
+        -webkit-transition: all 0.4s ease-in-out;
+        -moz-transition: all 0.4s ease-in-out;
+        transition: all 0.4s ease-in-out;
+    }
+
+    .logo {
+        padding: 10px;
+    }
+
+    .navigation {
+        position: fixed;
+    }
+
+    .login-box {
+        bottom: 0;
+        height: 150px;
+        margin: auto;
+        position: absolute;
+        top: -25%;
+        width: 100%;
+    }
+
+    .login-box img {
+        height: 50px;
+        margin: 0 auto;
+    }
+
+    .login-box h5 {
+        color: #fff;
+        font-size: 14px;
+        letter-spacing: 1px;
+        float: right;
+        text-align: right;
+    }
+
+    .login-box a {
+        border: 1px solid;
+        color: #fff;
+        font-weight: bold;
+        padding: 0 5px;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+
+    .home-text {
+        float: left;
+        width: 40%;
+        font-size: 22px;
+        line-height: 32px;
+        margin: 0 50px;
+        color: #333333;
+    }
+
+    .login-box-left {
+        float: left;
+    }
+
+    .box {
+        height: 70px;
+        margin: 0 0 20px;
+        padding: 10px 20px;
+        text-align: left;
+        vertical-align: top;
+        width: 260px;
+        z-index: 999;
+    }
+
+    .user {
+        background-color: #FF6B6B;
+    }
+
+    .lab {
+        background-color: #44B4A6;
+    }
+
+    .band {
+        background-color: #e77548;
+        width: 100%;
+        text-transform: uppercase;
+        color: #fff;
+        font-weight: bold;
+        padding: 10px;
+        opacity: 0.9;
+        position: absolute;
+        bottom: 20px;
+    }
+
+    .band h5 {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .user-register {
+        margin-top: 25px !important;
+    }
+
+    #articles {
+        width: 100%;
+        background-color: #F5F5F5;
+
+    }
+
+    #articles h4 {
+        color: #E76861;
+        text-transform: uppercase;
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+
+    #articles hr {
+        border-color: #FF6B6B;
+    }
+
+    .box1 {
+        margin: 10px;
+    }
+
+    .box1 img {
+        border: 12px solid #fff;
+    }
+
+    .box2 {
+        background-color: #fff;
+        padding: 20px 10px;
+    }
+
+    #articles h6 {
+        text-transform: uppercase;
+        font-weight: bold;
+        color: #000;
+    }
+
+    #articles a {
+        color: #333;
+    }
+
+    #articles a.blog-link {
+        color: #dc2a0b;
+        text-decoration: none;
+        border-bottom: 1px solid #dc2a0b;
+    }
+
+    .date {
+        margin-bottom: 10px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .date img {
+        border: none !important;
+        float: left;
+        padding: 5px 15px 0 0;
+    }
+
+    .services {
+        margin: 30px;
+    }
+
+    .services .btn {
+        border: 1px solid #000;
+        color: #333;
+        text-transform: uppercase;
+        border-radius: inherit;
+        font-weight: bold;
+    }
+
+    .btn-default:hover, .btn-default:active {
+        border-color: #ccc;
+        background: #eeeeee;
+
+    }
+
+    .footer-form {
+        background: #E46763;
+        padding-bottom: 35px;
+        padding-top: 35px;
+    }
+
+    .footercontent {
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    .form-control {
+        border-radius: inherit;
+    }
+
+    .footerform {
+        margin-bottom: 25px;
+    }
+
+    .footerform input[type="email"] {
+        width: 100%;
+        /*padding: 0;*/
+        padding: 15px 10px;
+        height: 50px;
+    }
+
+    .footerform .btn {
+        border-radius: inherit;
+        background: #b5c03e;
+        color: #fff;
+        text-transform: uppercase;
+        padding: 15px 20px;
+        border: none;
+    }
+
+    .email {
+        padding: 0;
+    }
+
+    .footer {
+        background: #212121;
+        padding: 20px;
+        color: #a3a3a3;
+    }
+
+    .links-txt {
+        display: inline-block;
+    }
+
+    .social-links ul {
+        display: inline-block;
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .social-links ul li {
+        display: inline;
+        padding: 0 4px;
+    }
+
+    .sugger-logger {
+        color: #fff;
+        text-transform: uppercase;
+    }
+
+    .sugger-logger:hover {
+        color: #dc2a0b;
+        text-decoration: underline;
+    }
+
+    .footer .fa {
+        background: #2f2f2f none repeat scroll 0 0;
+        border: 1px solid rgb(68, 68, 68);
+        border-radius: 50%;
+        color: #a3a3a3;
+        font-size: 12px;
+        height: 30px;
+        padding: 8px;
+        text-align: center;
+        width: 30px;
+    }
+
+    .footer .fa:hover {
+        background: #fff;
+        color: #2f2f2f;
+        border: 1px solid transparent;
+    }
+
+    .navigation {
+        float: right;
+    }
+
+    .navbar-default {
+        background-color: inherit;
+        border-color: inherit;
+    }
+
+    .navbar {
+        border: inherit;
+        float: right;
+    }
+
+    .navbar-nav li {
+        margin-left: 5px;
+    }
+
+    .navbar-nav li a {
+        font-size: 16px;
+        color: #656464;
+        text-decoration: none;
+        padding: 6px 15px;
+        text-transform: uppercase;
+        font-weight: bold;
+        line-height: 60px;
+    }
+
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+        color: #000;
+        border-top: 3px solid #DC2A0B;
+        background-color: inherit;
+        padding: 6px 15px;
+        text-transform: uppercase;
+    }
+
+    .sticky {
+        /*position: fixed;*/
+        top: 0;
+        position: fixed;
+        width: 100%;
+        background-color: #fff;
+        z-index: 9999;
+        height: 60px;
+        right: 15px;
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+
+        /*padding: 10px 0;*/
+    }
+
+    .sticky .logo img {
+        width: 160px;
+    }
+
+    .main-header .sticky {
+
+    }
+
+    .main-header .sticky li {
+        border-top: none;
+    }
+
+    #go-top {
+        position: fixed;
+        bottom: 15px;
+        right: 15px;
+        z-index: 99;
+        display: none;
+    }
+
+    #go-top a {
+        width: 44px;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        color: #fff;
+        -webkit-transition: 0.2s;
+        transition: 0.2s;
+    }
+
+    #go-top a:hover {
+
+    }
+
+    #go-top a:hover .fa {
+        background-color: #777;
+        color: #2f2f2f;
+    }
+
+    #go-top a .fa {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        display: block;
+        font-size: 14px;
+        background: #a3a3a3;
+        border-radius: 6px;
+        color: #fff;
+    }
+
+    .navbar-default li a {
+        padding: 8px 15px;
+    }
+
+    .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+        text-decoration: none;
+        color: #000;
+        border-top: 3px solid #DC2A0B; /*optional for transition */
+        padding: 5px 15px;
+    }
+
+    .navbar-nav > li > .dropdown-menu {
+        display: none;
+    }
+
+    .footerform .btn:hover {
+        background: #000;
+    }
+
+    .wrapper {
+        overflow: hidden;
+    }
+</style>
+<div class="header" id="home">
+    {#<div class="row login-header">#}
+    {#<div class="container">#}
+    {#<div class="col-lg-12 col-sm-12 col-xs-12 text-right">#}
+    {#<div class="login">#}
+    {#<i class="fa fa-lock"></i>#}
+    {#<a href="{{ path('user_login') }}">User Login</a>#}
+    {#</div>#}
+    {#<div class="login">#}
+    {#<i class="fa fa-lock"></i>#}
+    {#<a href="{{ path('backend_admin_login') }}">Path Lab Login</a>#}
+    {#</div>#}
+    {#<div class="register">#}
+    {#<i class="fa fa-pencil-square-o"></i>#}
+    {#<a href="{{ path('user_registration') }}">Register Free</a>#}
+    {#</div>#}
+    {#</div>#}
+    {#</div>#}
+    {#</div>#}
+    <div class="row main-header fixed">
+        <div class="container">
+            <div class="col-lg-3 col-sm-4 col-xs-4 text-left logo">
+                <a href="{{ path('home_render') }}"><img src="{{ asset("assets/img/logo.png") }}"></a>
+            </div>
+            <div class="col-lg-9 col-sm-8 col-xs-8 text-right">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="{{ path('user_registration') }}">Register Free</a></li>
+                                <li><a href="{{ path('home_render') }}">Home</a></li>
+                                {#<li><a href="#">Tips</a></li>#}
+                                {#<li><a href="#">Services</a></li>#}
+                                <li><a target="_blank" href="http://sugarlogger.com/blog/">Blog</a></li>
+                                <li><a href="{{ path('contact_us_render') }}">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <!-- /.navbar-collapse -->
+                    </div>
+                    <!-- /.container-fluid -->
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>

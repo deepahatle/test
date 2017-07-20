@@ -1,0 +1,151 @@
+{% extends "::user_backend_layout.html.twig" %}
+
+{% block title %}Tracking Chart :: Sugarlogger{% endblock %}
+
+{% block stylesheets_custom %}
+    {{parent()}}
+    <style type="text/css">
+    	.block-options li{
+    		vertical-align: middle
+    	}
+        .chartBadge{
+            font-weight: 400;
+        }
+        #chart_div{
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+        }
+        @media (max-width: 900px){
+            #chart_div{
+                height: 300px;
+            }
+            .chart-block{
+                padding: 0;
+            }
+        }        
+    </style>
+{% endblock %}
+
+{% block content %}
+    {# {{dump()}} #}
+    <!-- Page Header -->
+    <div class="content bg-gray-lighter">
+        <div class="row items-push">
+            <div class="col-sm-7">
+                <h1 class="h2">Tracking Chart</h1>
+            </div>            
+        </div>
+    </div>
+    <!-- END Page Header -->
+
+    <!-- Page Content -->
+    <div class="content">
+    	<div class="block">
+    		<div class="block-header">    
+                {% for key, test in testData %}
+                    {% if test | length > 1 %}
+                        <button class="btn btn-minw btn-primary chartBadge" data-target="{{key}}" type="button">
+                            {{key}} <strong>({{ test | length }})</strong>
+                        </button>
+                    {% endif %}
+                {% endfor %}
+            </div>          
+            <div class="clearfix"></div>
+            <div class="block-content block-content-full text-center chart-block">
+                <!-- Lines Chart Container -->
+                <div id="chart_div"></div>
+            </div>
+        </div>
+    </div>
+    <!-- END Page Content -->
+    
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart', 'line']});
+    google.charts.setOnLoadCallback(initChart);
+
+    function initChart(){
+        $($('.chartBadge')[0]).click().focus();        
+    }
+
+    $(function(){
+
+        var testData = JSON.parse('{{testData|json_encode()|e('js')}}');
+
+        $('.chartBadge').on('click', function(){
+            drawChart(testData[$(this).data('target')]);
+        });
+
+        function drawChart(test) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('date', 'Date');
+            data.addColumn('number', 'Result');
+            data.addColumn({type: 'string', role: 'annotation'});
+
+            var rowData = [];
+            var unit = test[0].unit;
+            $.each(test, function(){
+                rowData.push([new Date(this.date), parseFloat(this.actualValue), this.actualValue]);
+            });
+            data.addRows(rowData);
+
+            var options = {
+                title: test[0].name,
+                titleTextStyle: {
+                    color: '#58AEE5'
+                },
+                legend: 'none',
+                curveType: 'function',
+                pointSize: 10,
+                backgroundColor: '#06394D',
+                colors: ['#58AEE5'],
+                hAxis: {
+                    title: 'Date',
+                    titleTextStyle: {
+                        fontName: 'Roboto',
+                        color: '#fff'
+                    },
+                    format: 'd/M/yy',
+                    textStyle:{
+                        color: '#fff'
+                    },
+                    gridlines: {
+                        color: '#0E455C'
+                    }
+                },
+                vAxis: {
+                    minValue: 0,
+                    title: unit,
+                    titleTextStyle: {
+                        fontName: 'Roboto',
+                        color: '#fff'
+                    },
+                    textStyle:{
+                        color: '#fff'
+                    },
+                    gridlines: {
+                        color: '#0E455C'
+                    },
+                    baselineColor: '#58AEE5'
+                }
+            };
+
+            var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+
+        }
+    });
+
+    </script>
+{% endblock %}

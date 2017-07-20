@@ -1,0 +1,105 @@
+<!-- Sidebar -->
+<nav id="sidebar">
+    <!-- Sidebar Scroll Container -->
+    <div id="sidebar-scroll">
+        <!-- Sidebar Content -->
+        <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
+        <div class="sidebar-content">
+            <!-- Side Header -->
+            <div class="side-header side-content bg-white-op" style="background-color: #fafafa; padding: 12px 10px; text-align: center;">
+                <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
+                    <i class="fa fa-times"></i>
+                </button>
+
+                <a class="h5 text-white sidebar-mini-hide" href="{{ path('user_dashboard_render') }}">
+                    <img class="img-responsive" src="{{ asset('assets/img/logo.png') }}" alt="SugarLogger Logo" />
+                </a>
+            </div>
+            <!-- END Side Header -->
+
+            {% set currentRoute = app.request.attributes.get('_route') %}
+            {# Dashboard #}
+            {% set dashboard = (currentRoute == 'user_dashboard_render') ? 'active' : '' %}
+            {% set user_report = (currentRoute == 'user_report') ? 'active' : '' %}
+            {% set user_tracking_chart = (currentRoute == 'user_tracking_chart') ? 'active' : '' %}
+            
+            <!-- Side Content -->
+            <div class="side-content">
+                <ul class="nav-main">
+                    <li>
+                        <a class="{{dashboard}}" href="{{ path('user_dashboard_render') }}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                    </li>
+                    <li class="nav-main-heading"><span class="sidebar-mini-hide">User View</span></li>
+                    <li>
+                        <a class="{{user_report}}" href="{{ path('user_report') }}"><i class="fa fa-list-alt"></i><span class="sidebar-mini-hide">Reports</span></a>
+                    </li>
+                    <li>
+                        <a class="{{user_tracking_chart}}" href="{{ path('user_tracking_chart') }}"><i class="fa fa-bar-chart"></i><span class="sidebar-mini-hide">Tracking Chart</span></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END Side Content -->
+        </div>
+        <!-- Sidebar Content -->
+    </div>
+    <!-- END Sidebar Scroll Container -->
+</nav>
+<!-- END Sidebar -->
+
+<!-- Header -->
+<header id="header-navbar" class="content-mini content-mini-full">
+
+    <ul class="nav-header pull-right">                
+        <li>
+            <div class="btn-group">
+                <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                    <img src="{{ asset("assets/img/avatar.jpg")}}" alt="Avatar">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-header">Profile</li>
+                    <li>
+                        <a tabindex="-1" href="{{ path('change_password') }}">
+                            <i class="fa fa-key pull-right"></i>Change Password
+                        </a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="{{ path('logout') }}">
+                            <i class="si si-logout pull-right"></i>Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>                
+    </ul>
+    
+    <!-- Header Navigation Left -->
+    <ul class="nav-header pull-left">
+        <li class="hidden-md hidden-lg">
+            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+            <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
+                <i class="fa fa-navicon"></i>
+            </button>
+        </li>
+        <li class="hidden-xs hidden-sm">
+            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+            <button class="btn btn-default hide-on-close" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <button class="btn btn-default hide-on-open" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </li>              
+    </ul>
+    
+    <!-- END Header Navigation Left -->
+</header>
+<!-- END Header -->
+
+<script type="text/javascript"> 
+    var TWIG = TWIG || {};
+    {% set route = app.request.attributes.get('_route') %}
+    TWIG.userProfileComplete = '{{ route == "change_password" ? true : profileComplete }}';
+    TWIG.change_password = '{{ path("change_password") }}';
+</script>

@@ -1,0 +1,38 @@
+/*!
+  Site Name: SugarLogger
+  Company Site : http://realtyredefined.com/
+  Description: The Stylesheet for sugarlogger.com Website
+  Author: Avinash Lad
+*/
+
+
+/** General CSS
+******************************************************/
+
+body {
+    font-family: 'Raleway', 'Open Sans', 'Ubuntu', sans-serif;
+    font-size: 12px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 500;
+}
+
+table.dataTable tbody > tr > td {
+    vertical-align: middle;
+}
+
+table.dataTable thead > tr > th {
+    padding-right: 8px;
+}
+.hide-on-close{
+  display: inline-block;
+}
+.hide-on-open{
+  display: none;
+}
+.sidebar-mini .hide-on-close{
+  display: none;
+}
+.sidebar-mini .hide-on-open{
+  display: inline-block;
+}

@@ -1,0 +1,200 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets_custom %}
+    {{ parent() }}
+    <style type="text/css">
+        .alert-danger {
+            width: 400px;
+        }
+
+        .alert-success {
+            width: 400px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {# {{dump()}} #}
+    <!-- Login Content -->
+    {{ include('::_frontend_base_header.html.twig') }}
+    <div class="content overflow-hidden">
+        <div class="row" style="background-color: #F5F5F5;">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 push-100-t">
+                <!-- Login Block -->
+                <div class="block block-themed animated fadeIn">
+                    <div class="block-header bg-danger">
+                        <ul class="block-options">
+                            <li>
+                                {#<a href="{{ path('forgot_password_render') }}">Forgot Password?</a>#}
+                            </li>
+                            <li>
+                                <a href="{{ path('user_registration') }}" data-toggle="tooltip" data-placement="left" title="New Account">
+                                    {#<i class="si si-plus"></i>#}
+                                    New users register here
+                                </a>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Login</h3>
+                    </div>
+                    <div class="block-content block-content-full block-content-narrow">
+                        <!-- Login Title -->
+                        {#<a href="{{ path('home_render') }}">#}
+                            {#<img class="push-30-t" src="{{ asset('assets/img/logo.png') }}" alt="Project Logo"#}
+                                 {#height="40"/>#}
+                        {#</a>#}
+
+                        {% if from_registration == "yes" %}
+                            <p>Congratulations !</p>
+                            <p>Your account has been created you can now login using the username & password selected on
+                                the previous screen.</p>
+                        {% endif %}
+
+                        {% if from_registration == "no" %}
+                            <p>Welcome, please login.</p>
+                        {% endif %}
+                        <!-- END Login Title -->
+
+                        <!-- Login Form -->
+                        <!-- jQuery Validation (.js-validation-login class is initialized in js/pages/base_pages_login.js) -->
+                        <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                        <form id="profSignInForm" class="js-validation-login form-horizontal push-30-t push-50"
+                              action="{{ path('login_check') }}" method="post" autocomplete="off">
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="form-material form-material-primary">
+                                        <input class="form-control" type="text" id="login-username" name="_username"
+                                               value="{{ last_username }}" autocomplete="off"/>
+                                        <label for="login-username">Email or Mobile No.</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <div class="form-material form-material-primary">
+                                        <input class="form-control" type="password" id="login-password" name="_password"
+                                               autocomplete="off"/>
+                                        <label for="login-password">Password</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-6">
+                                    <label class="css-input switch switch-sm switch-primary">
+                                        <input type="checkbox" id="login-remember-me" name="_remember_me"><span></span>
+                                        Remember Me?
+                                    </label>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="font-s13 text-right push-5-t">
+                                        <a href="{{ path('forgot_password_render') }}">Forgot Password?</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    <button class="btn btn-block btn-danger loginSubmit" type="submit"><i
+                                                class="si si-login pull-right"></i> Log in
+                                    </button>
+                                </div>
+                            </div>
+                            {% if app.request.attributes.get('_route') == 'user_login' %}
+                                <input type="hidden" name="_target_path" id="_target_path"
+                                       value="user_dashboard_render"/>
+                                <input type="hidden" name="_failure_path" id="_failure_path" value="user_login"/>
+                            {% else %}
+                                <input type="hidden" name="_target_path" value="dashboard_render"/>
+                                <input type="hidden" name="_failure_path" value="backend_admin_login"/>
+                            {% endif %}
+                        </form>
+                        <!-- END Login Form -->
+                    </div>
+                </div>
+                <!-- END Login Block -->
+            </div>
+        </div>
+    </div>
+    <!-- END Login Content -->
+
+    {#<!-- Login Footer -->#}
+    {#<div class="push-10-t text-center animated fadeInUp">#}
+        {#<a href="{{ url('home_render') }}">#}
+            {#<small class="text-muted font-w600"><span class="js-year-copy"></span> &copy; Sugarlogger</small>#}
+        {#</a>#}
+    {#</div>#}
+    {#<!-- END Login Footer -->#}
+    {{ include('::_frontend_base_footer.html.twig') }}
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- OneUI Core JS: jQuery, Bootstrap, slimScroll, scrollLock, Appear, CountTo, Placeholder, Cookie and App.js -->
+    <script src="{{ asset("assets/js/core/jquery.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/bootstrap.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/jquery.slimscroll.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/jquery.scrollLock.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/jquery.appear.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/jquery.countTo.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/jquery.placeholder.min.js") }}"></script>
+    <script src="{{ asset("assets/js/core/js.cookie.min.js") }}"></script>
+    <script src="{{ asset("assets/js/app.js") }}"></script>
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset("assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
+    <script src="{{ asset("assets/js/plugins/jquery-validation/jquery.validate.min.js") }}"></script>
+
+    <!-- Page JS Code -->
+    <script src="{{ asset("assets/js/pages/base_pages_login.js") }}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var msg = '';
+
+            {% if error %}
+            msg = "{{ error.messageKey|trans(error.messageData, 'security') }}";
+            type = 'error';
+            {% endif %}
+
+            {% if app.session.flashBag.has('error') %}
+            {% for msg in app.session.flashBag.get('error') %}
+            msg = "{{ msg  | replace({ 'Account is disabled.': 'Your free trial has expired, please renew your account by clicking <a href="http://sugarlogger.com/register">here</a>.'}) }}";
+            type = 'error';
+            {% endfor %}
+            {% endif %}
+
+            {% if app.session.flashBag.has('success') %}
+            {% for msg in app.session.flashBag.get('success') %}
+            msg = "{{ msg }}";
+            type = 'success';
+            {% endfor %}
+            {% endif %}
+
+            if (msg)
+                $.notify({
+                        icon: type == 'success' ? "fa fa-check" : "fa fa-times",
+                        message: msg,
+                        url: ''
+                    },
+                    {
+                        element: 'body',
+                        type: type == 'success' ? "success" : "danger",
+                        allow_dismiss: true,
+                        newest_on_top: true,
+                        showProgressbar: false,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        offset: 30,
+                        spacing: 10,
+                        z_index: 1033,
+                        delay: 5000,
+                        timer: 1000,
+                        animate: {
+                            enter: 'animated fadeIn',
+                            exit: 'animated fadeOutDown'
+                        }
+                    });
+        });
+    </script>
+
+{% endblock %}

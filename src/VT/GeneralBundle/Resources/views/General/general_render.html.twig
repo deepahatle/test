@@ -1,0 +1,169 @@
+{# {{dump()}} #}
+<!-- Sidebar -->
+<nav id="sidebar">
+    <!-- Sidebar Scroll Container -->
+    <div id="sidebar-scroll">
+        <!-- Sidebar Content -->
+        <!-- Adding .sidebar-mini-hide to an element will hide it when the sidebar is in mini mode -->
+        <div class="sidebar-content">
+            <!-- Side Header -->
+            <div class="side-header side-content bg-white-op" style="background-color: #fafafa; padding: 12px 10px; text-align: center;">
+                <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+                <button class="btn btn-link text-gray pull-right hidden-md hidden-lg" type="button" data-toggle="layout" data-action="sidebar_close">
+                    <i class="fa fa-times"></i>
+                </button>
+
+                <a class="h5 text-white sidebar-mini-hide" href="{{ path('dashboard_render') }}">
+                    <img class="img-responsive" src="{{ asset('assets/img/logo.png') }}" alt="SugarLogger Logo" />
+                </a>
+            </div>
+            <!-- END Side Header -->
+
+            {% set currentRoute = app.request.attributes.get('_route') %}
+            {# Dashboard #}
+            {% set dashboard = (currentRoute == 'dashboard_render') ? 'active' : '' %}
+            {# Test #}
+            {% set test = (currentRoute == 'test_render') ? 'active' : '' %}
+            {% set add_test = (currentRoute == 'add_test_render') ? 'active' : '' %}
+            {% set testHead = (test == 'active' or add_test == 'active' ? 'open' : '') %}
+            {# Doctor #}
+            {% set doctor = (currentRoute == 'doctor_render') ? 'active' : '' %}
+            {% set add_doctor = (currentRoute == 'add_doctor_render') ? 'active' : '' %}
+            {% set doctorHead = (doctor == 'active' or add_doctor == 'active' ? 'open' : '') %}
+            {# Patient #}
+            {% set patient = (currentRoute == 'patient_record') ? 'active' : '' %}
+            {% set add_patient = (currentRoute == 'add_patient_record') ? 'active' : '' %}
+            {% set patientHead = (patient == 'active' or add_patient == 'active' ? 'open' : '') %}
+            {# Wallet #}
+            {% set wallet = (currentRoute == 'wallet_render') ? 'active' : '' %}
+
+            <!-- Side Content -->
+            <div class="side-content">
+                <ul class="nav-main">
+                    <li>
+                        <a class="{{dashboard}}" href="{{ path('dashboard_render') }}"><i class="si si-speedometer"></i><span class="sidebar-mini-hide">Dashboard</span></a>
+                    </li>
+                    <li class="nav-main-heading"><span class="sidebar-mini-hide">Laboratory</span></li>
+                    <li class="{{patientHead}}">
+                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-user"></i><span class="sidebar-mini-hide">Patient Visit</span></a>
+                        <ul>
+                            <li>
+                                <a class="{{patient}}" href="{{ path('patient_record') }}">List of Patient visits</a>
+                            </li>
+                            <li>
+                                <a class="{{add_patient}}" href="{{ path('add_patient_record') }}">Add Patient visit</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="{{testHead}}">
+                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="si si-drop"></i><span class="sidebar-mini-hide">Test</span></a>
+                        <ul>
+                            <li>
+                                <a class="{{test}}" href="{{ path('test_render') }}">List of Tests</a>
+                            </li>
+                            <li>
+                                <a class="{{add_test}}" href="{{ path('add_test_render') }}">Add Test</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="{{doctorHead}}">
+                        <a class="nav-submenu" data-toggle="nav-submenu" href="#"><i class="fa fa-plus"></i><span class="sidebar-mini-hide">Doctors</span></a>
+                        <ul>
+                            <li>
+                                <a class="{{doctor}}" href="{{ path('doctor_render') }}">List of Doctors</a>
+                            </li>
+                            <li>
+                                <a class="{{add_doctor}}" href="{{ path('add_doctor_render') }}">Add Doctor</a>
+                            </li>
+                        </ul>
+                    </li>                    
+                    <li>
+                        <a class="{{wallet}}" href="{{ path('wallet_render') }}"><i class="si si-wallet"></i><span class="sidebar-mini-hide">Wallet</span></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END Side Content -->
+        </div>
+        <!-- Sidebar Content -->
+    </div>
+    <!-- END Sidebar Scroll Container -->
+</nav>
+<!-- END Sidebar -->
+
+<!-- Header -->
+<header id="header-navbar" class="content-mini content-mini-full">
+    <!-- Header Navigation Right -->
+    <ul class="nav-header pull-right">                
+        <li>
+            <div class="btn-group">
+                <button class="btn btn-default btn-image dropdown-toggle" data-toggle="dropdown" type="button">
+                    <img src="{{ asset("assets/img/avatar.jpg")}}" alt="Avatar">
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li class="dropdown-header">Profile</li>
+                    <li>
+                        <a tabindex="-1" href="{{ path('edit_lab_render') }}">
+                            <i class="fa fa-pencil pull-right"></i>Edit Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="{{ path('change_password') }}">
+                            <i class="fa fa-key pull-right"></i>Change Password
+                        </a>
+                    </li>
+                    <li>
+                        <a tabindex="-1" href="{{ path('logout') }}">
+                            <i class="si si-logout pull-right"></i>Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>                
+    </ul>
+    <!-- END Header Navigation Right -->
+
+    {% if generalData.daysLeft is not empty %}
+    	<ul class="nav-header pull-right">
+    		<li>
+    			<div class="alert alert-danger" style="margin: 0; padding: 8px 15px;">
+    				<h6 class="font-w300">
+    					{% if generalData.isTrial == true %}
+    						Your are using trial version of this application. Your trial expires in <a href="javascript:void(0)" class="alert-link">{{generalData.daysLeft}} days</a>
+    					{% else %}
+    						Your application expires in <a href="javascript:void(0)" class="alert-link">{{generalData.daysLeft}} days</a>. Please renew for continued usage.
+    					{% endif %}
+    				</h6>
+    			</div>
+    		</li>
+    	</ul>
+    {% endif %}
+    
+
+    <!-- Header Navigation Left -->
+    <ul class="nav-header pull-left">
+        <li class="hidden-md hidden-lg">
+            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+            <button class="btn btn-default" data-toggle="layout" data-action="sidebar_toggle" type="button">
+                <i class="fa fa-navicon"></i>
+            </button>
+        </li>
+        <li class="hidden-xs hidden-sm">
+            <!-- Layout API, functionality initialized in App() -> uiLayoutApi() -->
+            <button class="btn btn-default hide-on-close" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <button class="btn btn-default hide-on-open" data-toggle="layout" data-action="sidebar_mini_toggle" type="button">
+                <i class="fa fa-arrow-right"></i>
+            </button>
+        </li>                
+    </ul>
+    <!-- END Header Navigation Left -->
+</header>
+
+<script type="text/javascript">	
+	var TWIG = TWIG || {};
+	{% set route = app.request.attributes.get('_route') %}
+	TWIG.profileComplete = '{{ route == "edit_lab_render" ? true : generalData.profileComplete }}';
+	TWIG.edit_lab_render = '{{ path("edit_lab_render") }}';
+</script>

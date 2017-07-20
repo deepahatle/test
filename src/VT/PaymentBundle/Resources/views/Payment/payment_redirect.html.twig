@@ -1,0 +1,47 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+  <div class="content bg-white text-center pulldown overflow-hidden">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="font-s64 text-gray push-30-t push-50">
+          <i class="fa fa-cog fa-spin"></i>
+        </div>
+        <h1 class="h2 font-w400 push-15">Redirecting to Payment Gateway.</h1>
+        <h2 class="h3 font-w300 text-dark-op push-50">Please do not close or refresh this page.</h2>
+      </div>
+    </div>
+  </div>
+  <form action="https://payu.in/_payment" method="post" name="payuForm">
+    <input type="hidden" name="key" value="{{ postData.txnKey }}" />
+    <input type="hidden" name="hash" value="{{ postData.hash }}"/>
+    <input type="hidden" name="txnid" value="{{ postData.txnId }}" />
+    <input type="hidden" name="amount" value="{{ postData.amount }}" />
+    <input type="hidden" name="firstname" value="{{ postData.name }}" />
+    <input type="hidden" name="email" value="{{ postData.email }}" />
+    <input type="hidden" name="phone" value="{{ postData.mobileNo }}" />
+    <input type="hidden" name="productinfo" value="SugarLogger - {{ postData.package }}" />
+    <input type="hidden" name="surl" value="{{ url('payment_status', {'status': 'success'}) }}" size="64" />
+    <input type="hidden" name="furl" value="{{ url('payment_status', {'status': 'failure'}) }}" size="64" />
+    <input type="hidden" name="service_provider" value="payu_paisa" size="64" />   
+  </form>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+
+  <script type="text/javascript">
+  $(function(){
+    var hash = '{{postData.hash}}';
+      $(window).on('load', submitPayuForm);
+      function submitPayuForm() {
+        if(hash == '') {
+          return;
+        }
+        var payuForm = document.forms.payuForm;
+        payuForm.submit();
+      }
+  });
+
+  </script>
+{% endblock %}

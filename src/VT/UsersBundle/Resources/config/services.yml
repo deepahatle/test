@@ -1,0 +1,4 @@
+services:
+#    users.example:
+#        class: VT\UsersBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]

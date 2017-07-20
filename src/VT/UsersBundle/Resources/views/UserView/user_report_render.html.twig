@@ -1,0 +1,108 @@
+{% extends "::user_backend_layout.html.twig" %}
+
+{% block title %}User Report :: Sugarlogger{% endblock %}
+
+    {% block stylesheets_custom %}
+        {{parent()}}
+        <style type="text/css">
+        .block-options li{
+            vertical-align: middle
+        }
+        .block-options em.h5{
+            color: #fff;
+        }
+        #userReport .block-content{
+            padding: 0;
+        }
+        #userReport	.text-muted {
+            color: #ccc;
+        }
+      </style>
+  {% endblock %}
+
+  {% block content %}
+
+    <!-- Page Header -->
+    <div class="content bg-gray-lighter">
+        <div class="row items-push">
+            <div class="col-sm-7">
+                <h1 class="h2">Visit Reports</h1>
+            </div>            
+        </div>
+    </div>
+    <!-- END Page Header -->
+
+    <!-- Page Content -->
+    <div id="userReport" class="content">
+        <!-- My Block -->            
+        {% for visit in testData.userVisit %}
+            <div class="block block-themed block-list">
+                <div class="block-header bg-primary-dark">
+                    <ul class="block-options">
+                        <li>
+                            <em class="h5">Doctor: {{ visit.doctor }}</em>
+                        </li>
+                        <li>
+                            <button class="h5" data-action="content_toggle" data-toggle="block-option" type="button"><i class="si si-arrow-up"></i></button>
+                        </li>
+                    </ul>                            
+                    <h3 class="block-title">{{ visit.lab }}</h3>
+                    <span class="text-muted">{{ visit.date }}</span>
+                </div>
+                <div class="block-content">                
+                    <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                        <table class="table table-bordered table-striped js-dataTable-full dataTable no-footer push-5" id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
+                            <thead>
+                                <tr role="row">
+                                    <th style="width:5%;"></th>
+                                    <th>Test Name</th>
+                                    <th style="width:20%;">Result</th>
+                                    <th style="width:20%;">Normal Values</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for test in visit.tests %}
+                                    <tr>
+                                        <td class="text-center">{{ loop.index }}</td> 
+                                        <td>{{ test.name }}</td> 
+                                        <td>{{ test.actualValue }}</td> 
+                                        <td>{{ test.lowerValue }} - {{ test.higherValue }} {{ test.unit }}</td> 
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="block-header">
+                        <div class="block-options-simple">
+                            <a class="btn btn-sm btn-danger h5" href="{{ path('generate_report_pdf') }}?id={{ visit.id }}"><span>Download PDF</span> <i class="fa fa-file-pdf-o"></i></a>
+                            <button class="btn btn-sm btn-primary h5 print-btn"><span>Print Report</span> <i class="fa fa-print"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- END My Block -->
+    </div>
+    <!-- END Page Content -->
+    
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    <script type="text/javascript">
+    $('.print-btn').on('click', function(){
+
+        $lPage = $('#page-container');
+        var $pageCls = $lPage.prop('class');
+        $lPage.prop('class', '');
+        $('.block-list').not($(this).closest('.block-list')).hide();
+        $(this).closest('.block-header').hide();
+
+        window.print();
+
+        $lPage.prop('class', $pageCls);
+        $('.block-list').show();
+        $(this).closest('.block-header').show();
+    });
+    </script>
+{% endblock %}

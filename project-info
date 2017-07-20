@@ -1,0 +1,19 @@
+www.bigrock.in
+User name : rajkumar.remalli@gmail.com
+Password : Sugarlogger2016
+http://sugarlogger.com/sugar/
+Login as Pathology Lab
+rajkumar.alchemist@gmail.com
+rajkumar9930451078
+====================================================
+
+Create Migration:
+----------------------
+vendor\bin\phinx create MigrationName
+
+Run Migration:
+----------------------
+# local
+# vendor\bin\phinx migrate -e development
+
+phinx migrate -e development

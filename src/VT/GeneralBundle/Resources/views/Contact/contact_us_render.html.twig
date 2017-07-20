@@ -1,0 +1,70 @@
+{% extends "::frontend_base_layout.html.twig" %}
+
+{% form_theme form _self %}
+
+{% block form_row %}
+
+    <div class="form-group">
+        <div class="col-xs-12">
+            <div class="form-material form-material-success">
+                {{ form_widget(form) }}
+                {{ form_label(form) }}
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block body %}
+    <section id="articles">
+        <br /><br /><br /><br /><br />
+        <div class="container">
+            <h4 class="text-center">Contact Us</h4>
+            <hr>
+            <div class="row text-center push-20-t push-20">
+                <div class="col-sm-4 animated fadeIn" data-class="animated fadeIn" data-offset="50"
+                     data-toggle="appear">
+                    <p style="text-align: left;">You can reach us at</p>
+                    <p style="text-align: left;"><span style="color: #E76861">Email:</span> <br> info.sugarlogger@gmail.com</p>
+                    <p style="text-align: left;"><span style="color: #E76861">Contact Number:</span> <br> +91 8082757343</p>
+                    <p style="text-align: left;"><span style="color: #E76861">Address:</span> <br> Sugarlogger Inc, 401 Crystal Plaza, Opposite Mumbai University, Santacruz East, Mumbai </p>
+                </div>
+                <div class="col-sm-8 animated fadeIn" data-class="animated fadeIn" data-offset="50"
+                     data-toggle="appear">
+                    <!-- Contact us form -->
+                    <div class="block-themed animated fadeIn">
+                        {#<div class="block-header bg-success" style="background-color: #E76861;">#}
+                            {#<h3 class="block-title">Get in touch</h3>#}
+                        {#</div>#}
+                        <div class="block-content-full block-content-narrow">
+                            <p >If there is any extra information that you are looking out for, you can always get in
+                                touch
+                                with us. Just fill out the below details and we will contact you.</p>
+
+                            {{ form_start(form, {'attr': {'class': 'js-validation-register form-horizontal push-50-t push-50'}}) }}
+                            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_row(form.phoneNumber) }}
+                            {{ form_row(form.emailId) }}
+                            {{ form_row(form.message) }}
+
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-block btn-success" type="submit"
+                                            style="background-color: #E76861">
+                                        <i class="fa fa-chevron-right pull-right"></i>
+                                        <span>Submit</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                    <!-- End Contact us form -->
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

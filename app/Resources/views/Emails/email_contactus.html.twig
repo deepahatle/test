@@ -1,0 +1,21 @@
+{% extends ':Emails:email_layout.html.twig' %}
+{% block email_content %}
+    <tr>
+        <td>
+            <h3 align="center" style="margin-bottom: 0;">Contact Us!</h3>
+            <p style="border-top: 1px solid #dedede; margin: 10px 20px;"></p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 6px 20px;">
+            <p>Hi,</p>
+
+            The contact us form has been submitted at SugarLogger.com. Details are as mentioned below.
+            <p style="text-align: left;"><span style="color: #E76861">Name:</span> <br>{{ name }}</p>
+            <p style="text-align: left;"><span style="color: #E76861">Phone Number:</span> <br>{{ phoneNumber }}</p>
+            <p style="text-align: left;"><span style="color: #E76861">Email Address:</span> <br>{{ emailId }}</p>
+            <p style="text-align: left;"><span style="color: #E76861">Message:</span> <br> {{ message }} </p>
+
+        </td>
+    </tr>
+{% endblock %}

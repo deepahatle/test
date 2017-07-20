@@ -1,0 +1,93 @@
+{% extends "::frontend_base_layout.html.twig" %}
+
+{% block stylesheets_custom %}
+    <style>
+        .home-text ul {
+            list-style: none;
+            margin-left: -40px;
+        }
+
+        .home-text ul li:before {
+            content: '✓';
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <section id="banner">
+        <div class="login-box">
+            <div class="home-text">
+                <p>Welcome to Sugarlogger, your one stop solution for recording patients pathology reports.</p>
+
+                <ul>
+                    <li>No more waiting for patients to collect their reports.</li>
+                    <li>No more printing.</li>
+                    <li>Save electricity, paper and time.</li>
+                </ul>
+            </div>
+            <div class="login-box-left">
+                <div class="box user">
+                    <img class="" src="{{ asset("assets/img/login.png") }}">
+                    <h5><a class="user-login" href="{{ path('user_login') }}">User Login</a></h5>
+                </div>
+                <div class="box lab">
+                    <img class="" src="{{ asset("assets/img/lablogin.png") }}">
+                    <h5>
+                        <a class="lab-login" href="{{ path('backend_admin_login') }}">Pathology Lab Login</a><br/>
+                        <br/>
+                        <a class="user-register" href="{{ path('user_registration') }}">Lab Register</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+        {#<div class="band">#}
+        {#<h5 class="text-center">Sugarlogger helps you track your sugar level with ease. </h5>#}
+        {#</div>#}
+    </section>
+    <section id="articles">
+        <div class="container">
+            <hr>
+            <h4 class="text-center">Blogs</h4>
+            <hr>
+            {% if blogPosts %}
+                {% for post in blogPosts.posts %}
+                    <div class="row box{{ 2 - loop.index % 2 }}">
+                        <div class="col-lg-3 col-sm-12 col-xs-12 ">
+                            <a class="img-responsive" target="_blank" href="{{ post.url }}">
+                                <img src="{{ post.thumbnail_images.full.url ? post.thumbnail_images.full.url : asset("assets/img/avatar.jpg") }}">
+                            </a>
+                        </div>
+                        <div class="col-lg-9 col-sm-12 col-xs-12">
+                            <a target="_blank" href="{{ post.url }}"><h3>{{ post.title }}</h3></a>
+
+                            <p class="date">
+                                <span class="push-10-r"><i class="fa fa-user"></i> {{ post.author.name }} </span>
+                                <span><i class="fa fa-calendar"></i> {{ post.date | date("d M Y") }}</span>
+                            </p>
+                            {{ (post.content|length > 400 ? post.content|slice(0, 400) ~ '...' : post.content) | raw }}
+                            <a class="blog-link" target="_blank" href="{{ post.url }}">more</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </section>
+    <div class="row footer-form">
+        <div class="container">
+            <div class="footercontent text-center">
+                {#<h6>STAY UPDATED</h6>#}
+                {#<h5>ABOUT HEALTH</h5>#}
+            </div>
+            <div class="footerform">
+                <form class="form-inline">
+                    <div class="form-group col-lg-10 col-sm-12 col-xs-12 email">
+                        <input type="email" class="form-control" id="" name="" placeholder="Subscribe to our newsletter">
+                    </div>
+                    <div class="form-group col-lg-2 col-sm-12 col-xs-12">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

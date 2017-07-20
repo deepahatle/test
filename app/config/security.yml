@@ -1,0 +1,69 @@
+security:
+    encoders:
+        VT\LoginBundle\Entity\Login: bcrypt
+        Symfony\Component\Security\Core\User\User: bcrypt
+            # algorithm: md5
+            # encode_as_base64: false
+            # iterations: 0
+        # Symfony\Component\Security\Core\User\User:
+        #     algorithm: md5
+        #     encode_as_base64: false
+        #     iterations: 0
+#        VT\Administrator\UserBundle\Entity\User:
+#            algorithm: bcrypt
+#            cost: 12
+#        Symfony\Component\Security\Core\User\User:
+#            algorithm: bcrypt
+#            cost: 12
+
+    #role_hierarchy:
+    #    ROLE_ADMIN:       ROLE_USER
+    #    ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        our_database_users:
+            entity: { class: LoginBundle:Login }
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        secured_area:
+            anonymous: ~
+            pattern:    ^/
+
+            form_login:
+                # submit the login form here
+                check_path: login_check
+                # the user is redirected here when they need to log in
+                login_path: user_login
+                # login failure redirecting options
+                failure_path: backend_admin_login
+                failure_path_parameter: _failure_path
+                # login success redirecting options
+                use_referer: true
+#                always_use_default_target_path: true
+#                default_target_path: dashboard_render
+
+            logout:
+                path:   /logout
+                target: /
+
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 2592000 # 1 month in secods | 604800 # 1 week in seconds
+                path:     /
+                name:     lacacormc
+                # by default, the feature is enabled by checking a
+                # checkbox in the login form (see below), uncomment the
+                # following line to always enable it.
+                #always_remember_me: true
+
+    access_control:
+        # - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/*, roles: [IS_AUTHENTICATED_FULLY, IS_AUTHENTICATED_REMEMBERED, ROLE_ADMIN] }
+

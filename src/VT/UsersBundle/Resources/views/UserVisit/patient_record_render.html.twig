@@ -1,0 +1,250 @@
+{% extends "::backend_layout.html.twig" %}
+
+{% block title %}Patients :: Sugarlogger{% endblock %}
+
+{% block stylesheets_custom %}
+    {{parent()}}
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
+    <style>
+        .relative-block {position: relative;}
+        #page-loader {position: absolute !important;}
+        .status-dd{
+            display: inline-block;
+        }
+        .status-dd .dropdown-menu{
+            padding: 0;
+            min-width: 0;
+            font-size: inherit;            
+        }
+        .status-dd button.btn{
+            color: #fff;
+        }
+        .status-dd a{
+            padding: 3px 5px;
+        }
+        .status-dd li{
+            border-bottom: 1px solid #eee;
+        }
+        .status-dd li:last-child{
+            border: none;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {# {{dump()}} #}
+	<!-- Page Header -->
+	<div class="content bg-gray-lighter">
+	    <div class="row items-push">
+	        <div class="col-sm-7">
+	            <h1 class="page-heading">
+	            	Patients Visits 
+	            </h1>
+	        </div>
+	    </div>
+	</div>
+	<!-- END Page Header -->
+
+	<!-- Page Content -->
+	<div class="content" ng-app="SugarApp" ng-cloak>
+	    <!-- Dynamic Table Full -->
+	    <div class="block" style="margin-bottom: 40px;">
+            <div class="block-content" ng-controller="PatientRecordController" ng-cloak>
+                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="dataTables_length" id="DataTables_Table_1_length">
+                                <label>
+                                    <select aria-controls="DataTables_Table_1" class="form-control" ng-model="pageSpec.pageSize" ng-change="getListingData(true)">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                </label>                                
+                            </div>
+                        </div>                        
+                        <div class="col-sm-4">
+                            <div class="pull-right alert alert-success" style="margin: 0; padding: 8px 15px;" ng-if="!!freeCredits">
+                                <h6 class="font-w300">
+                                    Free Credits: <strong>{[freeCredits]}</strong>
+                                </h6>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="DataTables_Table_1_filter" class="dataTables_filter">
+                                <label>
+                                    Search Patients:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_1" ng-model="searchSpec.keyword" ng-change="getListingData()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row relative-block">                    	
+                    	<div id="page-loader"></div>
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped js-dataTable-full dataTable no-footer" id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th class="text-center"></th>
+                                    <th>Name</th>
+                                    <th>Mobile No.</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Paid</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                    <th class="text-center" style="width: 15%;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr role="row" ng-repeat="patient in patients" ng-class-odd="'odd'" ng-class-even="'even'">
+                                        <td class="text-center">{[ currentFirstRecord + $index ]}</td>
+                                        <td class="font-w600">{[ patient.name ]}</td>
+                                        <td>{[ patient.mobile ]}</td>
+                                        <td>{[ patient.date ]} {[ patient.time ]}</td>
+                                        <td>{[ patient.netAmount ]}</td>
+                                        <td>
+                                            {[ patient.paidAmount ]}
+                                            <div class="dropdown pull-right" style="display: inline-block;">
+                                                <button class="btn btn-xs btn-default dropdown-toggle js-tooltip" aria-expanded="false" data-toggle="dropdown" type="button" title="Add Payment">
+                                                    <i class="fa fa-pencil"></i>
+                                                </button>                                                    
+                                                <div class="dropdown-menu dropdown-menu-right" style="padding: 5px; min-width: 5px;">
+                                                    <div class="input-group">
+                                                        <input ng-model="amt" type="text" class="form-control input-sm numberOnly" placeholder="Add Amt." style="width: 80px;" />
+                                                        <div class="input-group-btn">
+                                                            <button ng-click="updatePaidAmt(patient.id, amt)" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{[ patient.netAmount - patient.paidAmount ]}</td>
+                                        <td>
+                                            <div class="dropdown status-dd">
+                                                <button class="btn btn-xs" data-toggle="dropdown" ng-class="setStatusColor(patient.status)">{[ patient.status ]}</button>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li><a href="#" ng-disabled="patient.status == color" ng-repeat="(color,class) in statusColors" ng-click="setStatus(patient.id, color, $event)">{[color]}</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group">
+
+                                            <button class="btn btn-xs btn-default js-tooltip updateBtn" type="button" data-name="{[patient.name]}" data-id="{[patient.id]}" data-toggle="modal" data-target="#updateRecords" title="Update Record">
+                                                Update <i class="fa fa-arrow-up"></i>
+                                            </button>
+
+                                            <a target="_self" href="{{ path('generate_report_pdf') }}?id={[ patient.id ]}" class="btn btn-xs btn-danger" data-toggle="tooltip" title="Generate PDF Report">
+                                                <i class="fa fa-file-pdf-o"></i>
+                                            </a>
+
+                                            <button ng-show="patient.enableViewForUser == 'No'" ng-click="setUserView(patient.id)" class="btn btn-xs btn-default" data-toggle="tooltip" type="button" title="Enable User View">
+                                                <i class="fa fa-eye-slash"></i>
+                                            </button>
+                                            <button disabled ng-show="patient.enableViewForUser == 'Yes'" class="btn btn-xs btn-primary" data-toggle="tooltip" type="button" title="User View Enabled">
+                                                <i class="fa fa-eye"></i>
+                                            </button>
+
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">
+                                Showing <strong>{[ currentFirstRecord ]}</strong>-<strong>{[ currentLastRecord
+                                    ]}</strong> of <strong>{[ totalRecords ]}</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <uib-pagination ng-show="patients.length > 0" boundary-link-numbers="true"
+                                items-per-page="pageSpec.pageSize" total-items="totalRecords"
+                                ng-change="setPage(pageSpec.currentPage)" ng-model="pageSpec.currentPage"
+                                rotate="true" max-size="maxSize"
+                                class="pagination-sm pull-right hidden-xs" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                            </uib-pagination>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="modal fade" id="updateRecords" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-slideleft modal-lg">
+                        <div class="modal-content">
+                            <div class="block block-themed block-transparent remove-margin-b">
+                                <div class="block-header bg-primary-dark">
+                                    <ul class="block-options">
+                                        <li>
+                                            <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                                        </li>
+                                    </ul>
+                                    <h3 class="block-title">Update Test Records for <strong>{[ patientName ]}</strong></h3>
+                                </div>
+                                <div class="block body-block">
+                                    <div class="block-content" style="min-height: 300px; padding: 0;">
+                                        <table class="table table-bordered table-striped js-dataTable-full no-footer" id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="text-center" width="3%"></th>
+                                                    <th>Test Name</th>
+                                                    <th class="text-center" width="12%">Value</th>                                        
+                                                    <th>Normal Range</th>                                        
+                                                    <th>Comments</th>                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr role="row" ng-repeat="test in tests">
+                                                    <td class="text-center">{[ $index+1 ]}</td>
+                                                    <td class="font-w600">{[test.name]}</td>
+                                                    <td><input type="text" ng-model="test.actualValue" class="form-control text-center" placeholder="Value" /></td>
+                                                    <td class="font-w600">{[test.lowerValue]} - {[test.higherValue]} {[test.unit]}</td>
+                                                    <td><input type="text" ng-model="test.comments" class="form-control" placeholder="Comments" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                                <button class="btn btn-sm btn-primary" type="button" ng-click="saveRecord()"><i class="fa fa-check"></i> Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+	    <!-- END Dynamic Table Full -->
+	</div>
+	<!-- END Page Content -->
+    
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/core/angular.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/ui-bootstrap-tpls-1.3.2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/underscore-min.js') }}"></script>
+    <script src="{{ asset('assets/js/commonAngular.js') }}"></script>
+    <script type="text/javascript">
+    	var TWIG = TWIG || {};
+        TWIG.patient_data = "{{ path('patient_data') }}";       
+        TWIG.update_user_visit = "{{ path('update_user_visit') }}";       
+        TWIG.update_user_visit_tests = "{{ path('update_user_visit_tests') }}";       
+        TWIG.tests_by_patient_id = "{{ path('tests_by_patient_id') }}";
+        TWIG.deduct_from_wallet = "{{ path('deduct_from_wallet') }}";
+        TWIG.wallet_render = "{{ url('wallet_render') }}";
+        TWIG.deduct_free_credits = "{{ url('deduct_free_credits') }}";
+    	TWIG.free_credits = {{ freeCredits }};
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/users/PatientRecordController.js') }}"></script>
+
+{% endblock %}

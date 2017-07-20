@@ -1,0 +1,377 @@
+{% extends "::base.html.twig" %}
+
+{% form_theme form _self %}
+
+{% block form_row %}
+
+    <div class="form-group">
+        <div class="col-xs-12">
+            <div class="form-material form-material-success">
+                {{ form_widget(form) }}
+                {{ form_label(form) }}
+                {{ form_errors(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets_custom %}
+    {{ parent() }}
+    <style type="text/css">
+        .alert-danger {
+            width: 400px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {{ include('::_frontend_base_header.html.twig') }}
+    <section id="articles" class="package-box overflow-hidden">
+        {#<div class="text-center">#}
+        {#<a href="{{ path('home_render') }}">#}
+        {#<img src="{{ asset('assets/img/logo.png') }}" alt="Project Logo" height="40"/>#}
+        {#</a>#}
+        {#</div>#}
+        {#<hr>#}
+        <br/><br/><br/><br/><br/>
+        <div class="container">
+            <h4 class="text-center animated zoomIn">Select Package</h4>
+            <hr>
+            {% for pkg in pkgData %}
+                <div data-class="animated fadeIn" data-offset="50" data-toggle="appear"
+                     class="col-sm-3 animated fadeIn">
+                    <a data-package="{{ pkg.name }}" href="javascript:void(0)"
+                       class="block-package block block-bordered block-link-hover3 text-center">
+                        <div class="block-header">
+                            <h3 class="block-title">{{ pkg.name }}</h3>
+                        </div>
+                        <div class="block-content block-content-full bg-gray-lighter">
+                            <div class="h1 font-w700 push-10">{{ pkg.cost != 'Free' ? '₹' }}{{ pkg.cost }}</div>
+                            <div class="h5 font-w300 text-muted">for {{ pkg.duration }}</div>
+                        </div>
+                        <div class="block-content">
+                            <table class="table table-borderless table-condensed">
+                                <tbody>
+                                <tr>
+                                    <td><strong>Generate</strong> Reports</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Manage</strong> Patient Visits</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Track</strong> Payments/Tests</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="block-content block-content-mini block-content-full bg-gray-lighter">
+                            <span class="btn btn-default">Sign Up</span>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    <!-- Register Content -->
+    <div class="form-box content overflow-hidden hide">
+        <div class="row" style="background-color: #F5F5F5;">
+            <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 push-100-t">
+                <!-- Register Block -->
+                <div class="block block-themed animated fadeIn">
+                    <div class="block-header bg-danger">
+                        <ul class="block-options">
+                            {#<li>#}
+                            {#<a href="#" data-toggle="modal" data-target="#modal-disclaimer">Disclaimer</a>#}
+                            {#</li>#}
+                            <li>
+                                <a href="{{ url("user_login") }}" data-toggle="tooltip" data-placement="left"
+                                   title="Log In"><i class="si si-login"></i></a>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Complete Registration</h3>
+                    </div>
+                    <div class="block-content block-content-full block-content-narrow">
+                        <!-- Register Title -->
+                        {#<a href="{{ path('home_render') }}">#}
+                        {#<img class="push-30-t" src="{{ asset('assets/img/logo.png') }}" alt="Project Logo"#}
+                        {#height="40"/>#}
+                        {#</a>#}
+
+                        <p>Please fill the following details to create a new account.</p>
+                        <!-- END Register Title -->
+
+                        <!-- Register Form -->
+                        <!-- jQuery Validation (.js-validation-register class is initialized in js/pages/base_pages_register.js) -->
+                        <!-- For more examples you can check out https://github.com/jzaefferer/jquery-validation -->
+                        <p class="push-5"><strong>Package Details:</strong> <span id="changePkg"
+                                                                                  class="btn btn-xs btn-primary pull-right">Change Package</span>
+                        </p>
+                        <table class="pkg-table table table-bordered">
+                            <tr>
+                                <th>Selected Package</th>
+                                <th>Duration</th>
+                                <th>Cost</th>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        {{ form_start(form, {'attr': {'class': 'js-validation-register form-horizontal push-50-t push-50'}}) }}
+                        {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_row(form.mobileNo) }}
+                        {{ form_row(form.username) }}
+                        {{ form_row(form.plainPassword.first) }}
+                        {{ form_row(form.plainPassword.second) }}
+
+                        <div class="form-group">
+                            <div class="col-sm-9">
+                                <label class="css-input css-checkbox css-checkbox-danger" for="tc_check">
+                                    <input type="checkbox" id="tc_check" name="tc_check" value="No"><span></span> I
+                                    agree to the <a data-toggle="modal" data-target="#modal-terms" href="#">Terms &amp;
+                                        Conditions</a>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <button disabled class="btn btn-block btn-danger trial-no" type="submit"><i
+                                            class="fa fa-chevron-right pull-right"></i> <span>Proceed to payment</span>
+                                </button>
+                                <button disabled class="btn btn-block btn-danger trial-yes" type="submit"><i
+                                            class="fa fa-chevron-right pull-right"></i> <span>Register</span></button>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 10px;">* By submitting my contact details I authorize SugerLogger to call
+                            or SMS or email me with reference to this enquiry. This overrides the DND registration</p>
+
+                        {{ form_end(form) }}
+
+                    </div>
+                </div>
+                <!-- END Register Block -->
+            </div>
+        </div>
+    </div>
+    <!-- END Register Content -->
+
+    {#<!-- Register Footer -->#}
+    {#<div class="push-10-t text-center animated fadeInUp">#}
+    {#<a href="{{ url('home_render') }}">#}
+    {#<small class="text-muted font-w600"><span class="js-year-copy"></span> &copy; Sugarlogger</small>#}
+    {#</a>#}
+    {#</div>#}
+    {#<!-- END Register Footer -->#}
+    {{ include('::_frontend_base_footer.html.twig') }}
+
+    <!-- Terms Modal -->
+    <div class="modal fade" id="modal-terms" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popout">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Terms &amp; Conditions</h3>
+                    </div>
+                    <div class="block-content">
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i
+                                class="fa fa-check"></i> I agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Terms Modal -->
+
+    <!-- Disclaimer Modal -->
+    <div class="modal fade" id="modal-disclaimer" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-popout">
+            <div class="modal-content">
+                <div class="block block-themed block-transparent remove-margin-b">
+                    <div class="block-header bg-primary-dark">
+                        <ul class="block-options">
+                            <li>
+                                <button data-dismiss="modal" type="button"><i class="si si-close"></i></button>
+                            </li>
+                        </ul>
+                        <h3 class="block-title">Disclaimer</h3>
+                    </div>
+                    <div class="block-content">
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+
+                        <p>Dolor posuere proin blandit accumsan senectus netus nullam curae, ornare laoreet adipiscing
+                            luctus mauris adipiscing pretium eget fermentum, tristique lobortis est ut metus lobortis
+                            tortor tincidunt himenaeos habitant quis dictumst proin odio sagittis purus mi, nec taciti
+                            vestibulum quis in sit varius lorem sit metus mi.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-sm btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-sm btn-primary" type="button" data-dismiss="modal"><i
+                                class="fa fa-check"></i> I agree
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Disclaimer Modal -->
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/core/underscore-min.js') }}"></script>
+    <script src="{{ asset("assets/js/plugins/jquery-validation/jquery.validate.min.js") }}"></script>
+
+    <!-- Page JS Code -->
+    <script src="{{ asset("assets/js/plugins/bootstrap-notify/bootstrap-notify.min.js") }}"></script>
+    <script src="{{ asset("assets/js/pages/base_pages_register.js") }}"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('.block-package').on('click', setPackage);
+
+            function setPackage() {
+                $('.package-box').hide();
+                $('.form-box').removeClass('hide').show();
+
+                var selectedPkg = $(this).data('package');
+                if (selectedPkg == 'Trial Pack') {
+                    $('.js-validation-register .trial-yes').show();
+                    $('.js-validation-register .trial-no').hide();
+                }
+                else {
+                    $('.js-validation-register .trial-no').show();
+                    $('.js-validation-register .trial-yes').hide();
+                }
+
+                $('.form-box').find('form input[name="user_create[package]"]').val(selectedPkg);
+                var pkgData = JSON.parse('{{ pkgData|json_encode()|e('js') }}');
+                var pkgObj = _.findWhere(pkgData, {name: selectedPkg});
+                var pkgVal = _.values(pkgObj);
+                $('.pkg-table td').each(function (k, v) {
+                    $(v).text(pkgVal[k]);
+                });
+            }
+
+            $('#changePkg').on('click', function () {
+                $('.form-box').hide();
+                $('.package-box').show();
+                $('.trial-yes').prop('disabled', true);
+                $('.trial-no').prop('disabled', true);
+                $('#tc_check').prop('checked', false);
+            });
+
+            $('#tc_check').on('change', function () {
+                if (this.checked) {
+                    $('.trial-yes').prop('disabled', false);
+                    $('.trial-no').prop('disabled', false);
+                } else {
+                    $('.trial-yes').prop('disabled', true);
+                    $('.trial-no').prop('disabled', true);
+                }
+            });
+
+
+            pkgSelected = $(".js-validation-register input[name='user_create[package]']").val();
+            if (pkgSelected) {
+                setPackage.call($(".block-package[data-package='" + pkgSelected + "']"));
+            }
+
+            var msg = '';
+
+            if ('{{ userExists }}')
+                msg = 'Username and/or mobile number already exists!';
+
+            if (msg) {
+                $.notify({
+                        icon: "fa fa-times",
+                        message: msg,
+                        url: ''
+                    },
+                    {
+                        element: 'body',
+                        type: "danger",
+                        allow_dismiss: true,
+                        newest_on_top: true,
+                        showProgressbar: false,
+                        placement: {
+                            from: 'top',
+                            align: 'right'
+                        },
+                        offset: 30,
+                        spacing: 10,
+                        z_index: 1033,
+                        delay: 5000,
+                        timer: 1000,
+                        animate: {
+                            enter: 'animated fadeIn',
+                            exit: 'animated fadeOutDown'
+                        }
+                    });
+            }
+        });
+    </script>
+{% endblock %}

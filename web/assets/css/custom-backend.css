@@ -1,0 +1,223 @@
+/**
+* Custom CSS for Backend Pages
+*/
+body {
+    font-size: 12px;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th {
+    font-size: 12px;
+    padding: 8px 10px 6px;
+}
+
+.side-header .header-logo {
+    max-height: 24px;
+}
+
+.dashboardCounts small {
+    font-size: 74%;
+}
+
+.block-options > li {
+    vertical-align: middle;
+}
+
+input.form-control[type="file"] {
+    height: auto;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+label.required::after {
+    content: "*";
+    color: #d26a5c;
+    padding-left: 4px;
+}
+
+.select2-results__option.select2-results__message {
+    color: #d26a5c;
+}
+
+.bootstrap-datetimepicker-widget .timepicker-hour,
+.bootstrap-datetimepicker-widget .timepicker-minute,
+.bootstrap-datetimepicker-widget .timepicker-second,
+.bootstrap-datetimepicker-widget.dropdown-menu {
+    cursor: pointer;
+}
+
+.form-control input[type="radio"] + label,
+.form-control input[type="checkbox"] + label {
+    padding: 0 8px 0 4px;
+    transform: translateY(-2px);
+}
+
+.form-control label.required::after {
+    content: "";
+}
+
+.fieldset-label.col-xs-12 label {
+    margin-bottom: 15px;
+}
+
+.block-title.title-md {
+    font-size: 21px;
+    margin-bottom: 6px;
+}
+
+.form-inline .form-group {
+    margin-bottom: 20px;
+}
+
+/*.form-inline .form-material > label {*/
+    /*left: inherit;*/
+    /*line-height: normal;*/
+    /*padding-right: 10px;*/
+    /*position: relative;*/
+    /*top: inherit;*/
+    /*transform: translateY(-3px);*/
+/*}*/
+
+.form-control.choice-3 {
+    height: auto;
+}
+
+.form-control.choice-3 > label {
+    display: inline-block;
+    margin-right: -4px;
+    width: 25%;
+    vertical-align: top;
+}
+
+.form-material.inputFile + .help-block {
+    position: absolute;
+    right: 14px;
+    text-align: right;
+    top: 50px;
+}
+
+.form-inline .fieldset-label {
+    padding: 0;
+}
+
+.form-inline .fieldset-label.col-xs-12 > label {
+    margin: 0;
+    padding: 0;
+}
+
+.css-radio,
+.css-checkbox {
+    font-weight: 600;
+}
+
+label.css-radio {
+    padding-right: 10px;
+}
+
+label.css-radio .label-text,
+label.css-checkbox .label-text {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.choice-3 label.css-checkbox .label-text {
+    width: 90%;
+}
+
+.daysAvailable > .css-checkbox {
+    margin-right: 20px;
+}
+
+.detail-table {
+    font-size: 12px;
+}
+
+.detail-table tr > td:nth-child(odd) {
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.floatL {
+    float: left;
+}
+
+.marginL15 {
+    margin-left: 15px;
+}
+
+.formTitle {
+    border-bottom: 2px solid #5c90d2;
+    font-weight: 600;
+    margin-bottom: 24px;
+    margin-top: 10px;
+    padding-bottom: 4px;
+    text-transform: uppercase;
+}
+
+/** SWEET ALERT CUSTOM CSS
+**********************************/
+.sweet-alert {
+    top: 25%;
+    right: 0;
+    left: 0;
+    margin: 0 auto !important;
+    width: 500px;
+}
+
+.sweet-alert h2 {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 24px;
+    margin: 0;
+}
+
+.sweet-alert p {
+    font-size: 14px;
+}
+
+.sweet-alert button {
+    font-size: 14px;
+    margin: 20px 5px 0;
+    padding: 6px 24px;
+}
+
+.sweet-alert input {
+    font-size: 13px;
+    height: 32px;
+    margin-bottom: 0;
+}
+
+/************************************/
+
+.file-image-wrapper {
+    border: 1px solid #efefef;
+    box-shadow: 0 1px 3px #cdcdcd;
+    display: inline-block;
+    margin-top: 5px;
+    padding: 4px;
+    position: relative;
+    vertical-align: top;
+}
+
+.file-image-wrapper.no-image {
+    background-color: rgba(150, 150, 150, 0.9);
+}
+
+.file-image-wrapper .file-image {
+    margin-top: 2px;
+    max-width: 120px;
+    max-height: 130px;
+}
+
+.file-image-wrapper > .btn {
+    margin: 0;
+    padding: 4px 8px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    vertical-align: top;
+}
+
+/********************************************/

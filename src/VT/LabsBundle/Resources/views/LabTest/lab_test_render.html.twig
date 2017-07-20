@@ -1,0 +1,162 @@
+{% extends "::backend_layout.html.twig" %}
+
+{% block title %}Tests :: Sugarlogger{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
+    <style>
+        .relative-block {position: relative;}
+        #page-loader {position: absolute !important;}
+    </style>
+{% endblock %}
+
+{% block content %}
+	<!-- Page Header -->
+	<div class="content bg-gray-lighter">
+	    <div class="row items-push">
+	        <div class="col-sm-7">
+	            <h1 class="page-heading">
+	            	Tests
+	            </h1>
+	        </div>		        
+	    </div>
+	</div>
+	<!-- END Page Header -->
+
+	<!-- Page Content -->
+	<div class="content" ng-app="SugarApp" ng-cloak>
+	    <!-- Dynamic Table Full -->
+	    <div class="block">
+            <div class="block-content" ng-controller="LabTestController" ng-cloak>
+                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="dataTables_length" id="DataTables_Table_1_length">
+                                <label>
+                                    <select aria-controls="DataTables_Table_1" class="form-control" ng-model="pageSpec.pageSize" ng-change="getListingData(true)">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                </label>                               
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="DataTables_Table_1_filter" class="dataTables_filter">
+                                <label>
+                                    Search Tests:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_1" ng-model="searchSpec.keyword" ng-change="getListingData()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row relative-block">                    	
+                    	<div id="page-loader"></div>
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped js-dataTable-full dataTable no-footer"
+                                   id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th class="text-center"></th>
+                                    <th>Test Name</th>
+                                    <th>Department Name</th>
+                                    <th>Cost</th>
+                                    <th class="text-center" style="width: 10%;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" ng-repeat="test in tests" ng-class-odd="'odd'" ng-class-even="'even'">
+                                    <td class="text-center">{[ currentFirstRecord + $index ]}</td>
+                                    <td class="font-w600">{[ test.test ]}</td>
+                                    <td>{[ test.department ]}</td>
+                                    <td>{[ test.cost ]}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group dropdown">                                         
+                                            <button class="btn btn-xs btn-default dropdown-toggle js-tooltip" aria-expanded="false" data-toggle="dropdown" type="button" title="Edit Test">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>                                                    
+                                            <div class="dropdown-menu dropdown-menu-right" style="padding: 5px; min-width: 5px;">
+                                            	<div class="input-group">
+                                            		<input ng-model="newCost" type="text" class="form-control input-sm numberOnly" placeholder="New Cost" style="width: 80px;" />
+                                            		<div class="input-group-btn">
+                                            			<button ng-click="editByID(test.id, newCost)" class="btn btn-sm btn-primary"><i class="fa fa-check"></i></button>
+                                            		</div>
+                                            	</div>
+                                            </div>
+                                            <button class="js-swal-confirm btn btn-xs btn-default" data-toggle="tooltip" type="button" title="Remove Test" ng-click="deleteByID(test.id)">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">
+                                Showing <strong>{[ currentFirstRecord ]}</strong>-<strong>{[ currentLastRecord
+                                    ]}</strong> of <strong>{[ totalRecords ]}</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <uib-pagination ng-show="tests.length > 0" boundary-link-numbers="true"
+                                items-per-page="pageSpec.pageSize" total-items="totalRecords"
+                                ng-change="setPage(pageSpec.currentPage)" ng-model="pageSpec.currentPage"
+                                rotate="true" max-size="maxSize"
+                                class="pagination-sm pull-right hidden-xs" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                            </uib-pagination>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+	    <!-- END Dynamic Table Full -->
+	</div>
+	<!-- END Page Content -->
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/core/angular.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/ui-bootstrap-tpls-1.3.2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/underscore-min.js') }}"></script>
+    <script src="{{ asset('assets/js/commonAngular.js') }}"></script>
+    <script type="text/javascript">
+    	var TWIG = TWIG || {};
+    	TWIG.test_data = "{{ path('test_data') }}";
+    	TWIG.test_update = "{{ path('test_update') }}";
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/labs/LabTestController.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.block-content').on('keydown', '.numberOnly', function(e){
+                // Allow: backspace, delete, tab, escape
+                if ($.inArray(e.keyCode, [46, 8, 9, 27]) !== -1 ||
+                     // Allow: Ctrl+A, Command+A
+                    (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) || 
+                     // Allow: home, end, left, right, down, up
+                    (e.keyCode >= 35 && e.keyCode <= 40)) {
+                         // let it happen, don't do anything
+                         return;
+                }
+
+                if(e.keyCode == 13){
+                    $(this).parent().find('button').click();
+                }
+                // Ensure that it is a number and stop the keypress
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

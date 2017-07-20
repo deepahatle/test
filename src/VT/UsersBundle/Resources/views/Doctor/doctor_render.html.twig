@@ -1,0 +1,138 @@
+{% extends "::backend_layout.html.twig" %}
+
+{% block title %}Doctors :: Sugarlogger{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.css') }}">
+    <style>
+        .relative-block {position: relative;}
+        #page-loader {position: absolute !important;}
+    </style>
+{% endblock %}
+
+{% block content %}
+	<!-- Page Header -->
+	<div class="content bg-gray-lighter">
+	    <div class="row items-push">
+	        <div class="col-sm-7">
+	            <h1 class="page-heading">
+	            	Doctors
+	            </h1>
+	        </div>		        
+	    </div>
+	</div>
+	<!-- END Page Header -->
+
+	<!-- Page Content -->
+	<div class="content" ng-app="SugarApp" ng-cloak>
+	    <!-- Dynamic Table Full -->
+	    <div class="block">
+            <div class="block-content" ng-controller="DoctorController" ng-cloak>
+                <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="dataTables_length" id="DataTables_Table_1_length">
+                                <label>
+                                    <select aria-controls="DataTables_Table_1" class="form-control" ng-model="pageSpec.pageSize" ng-change="getListingData(true)">
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                    </select>
+                                </label>                                
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="DataTables_Table_1_filter" class="dataTables_filter">
+                                <label>
+                                    Search Doctors:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_1" ng-model="searchSpec.keyword" ng-change="getListingData()">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row relative-block">                    	
+                    	<div id="page-loader"></div>
+                        <div class="col-sm-12">
+                            <table class="table table-bordered table-striped js-dataTable-full dataTable no-footer"
+                                   id="DataTables_Table_1" role="grid" aria-describedby="DataTables_Table_1_info">
+                                <thead>
+                                <tr role="row">
+                                    <th class="text-center"></th>
+                                    <th>Name</th>
+                                    <th>Mobile No.</th>
+                                    <th>Email</th>
+                                    <th style="width: 30%;">Address</th>
+                                    <th>City</th>
+                                    <th>%</th>
+                                    <th class="text-center" style="width: 10%;">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr role="row" ng-repeat="doctor in doctors" ng-class-odd="'odd'" ng-class-even="'even'">
+                                    <td class="text-center">{[ currentFirstRecord + $index ]}</td>
+                                    <td class="font-w600">{[ doctor.name ]}</td>
+                                    <td>{[ doctor.mobile ]}</td>
+                                    <td>{[ doctor.email ]}</td>
+                                    <td>{[ doctor.address ]}</td>
+                                    <td>{[ doctor.city ]}</td>
+                                    <td>{[ doctor.percentage ]}</td>
+                                    <td class="text-center">
+                                        <div class="btn-group">                                         
+                                            <button ng-click="renderEdit(doctor.id)" class="btn btn-xs btn-default dropdown-toggle js-tooltip" type="button" title="Edit Doctor">
+                                                <i class="fa fa-pencil"></i>
+                                            </button>    
+                                            <button class="js-swal-confirm btn btn-xs btn-default" data-toggle="tooltip" type="button" title="Remove Doctor" ng-click="deleteByID(doctor.id)">
+                                                <i class="fa fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="DataTables_Table_1_info" role="status" aria-live="polite">
+                                Showing <strong>{[ currentFirstRecord ]}</strong>-<strong>{[ currentLastRecord
+                                    ]}</strong> of <strong>{[ totalRecords ]}</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <uib-pagination ng-show="tests.length > 0" boundary-link-numbers="true"
+                                items-per-page="pageSpec.pageSize" total-items="totalRecords"
+                                ng-change="setPage(pageSpec.currentPage)" ng-model="pageSpec.currentPage"
+                                rotate="true" max-size="maxSize"
+                                class="pagination-sm pull-right hidden-xs" previous-text="&lsaquo;"
+                                next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;">
+                            </uib-pagination>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+	    <!-- END Dynamic Table Full -->
+	</div>
+	<!-- END Page Content -->
+{% endblock %}
+
+{% block base_javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/core/angular.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/ui-bootstrap-tpls-1.3.2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/core/underscore-min.js') }}"></script>
+    <script src="{{ asset('assets/js/commonAngular.js') }}"></script>
+    <script type="text/javascript">
+    	var TWIG = TWIG || {};
+        TWIG.doctor_data = "{{ path('doctor_data') }}";     
+    	TWIG.doctor_edit = "{{ path('doctor_edit') }}";    	
+    	TWIG.doctor_delete = "{{ path('doctor_delete') }}";    	
+    </script>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('assets/js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('bundles/users/DoctorController.js') }}"></script>
+    
+{% endblock %}

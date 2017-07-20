@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome to Sugarlogger!{% endblock %}</title>
+    {% block meta %}{% endblock %}
+
+
+    <!-- Page JS Plugins CSS go here -->
+    {% block stylesheets %}{% endblock %}
+
+    <!-- Bootstrap and OneUI CSS framework -->
+    <link rel="stylesheet" href="{{ asset("assets/css/bootstrap.min.css") }}">
+    <link rel="stylesheet"
+          href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600,700%7COpen+Sans:300,400,400italic,600,700">
+    <link rel="stylesheet" href="{{ asset("assets/css/oneui.min.css") }}" id="css-main">
+
+    <!-- Custom CSS go here -->
+    {% block stylesheets_custom %}{% endblock %}
+
+</head>
+<body>
+
+<div class="wrapper">
+    {{ include('::_frontend_base_header.html.twig') }}
+
+    {% block body %}{% endblock %}
+
+    {{ include('::_frontend_base_footer.html.twig') }}
+</div>
+
+{% block javascripts %}{% endblock %}
+
+</body>
+</html>

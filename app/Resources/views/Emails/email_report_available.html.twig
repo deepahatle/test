@@ -1,0 +1,15 @@
+{% extends ':Emails:email_layout.html.twig' %}
+{% block email_content %}
+    <tr>
+        <td>
+            <h3 align="center" style="margin-bottom: 0;">Report available!</h3>
+            <p style="border-top: 1px solid #dedede; margin: 10px 20px;"></p>
+        </td>
+    </tr>
+    <tr>
+        <td style="padding: 6px 20px;">
+            <p>Hi {{ user.name }},</p>
+            <p>Your report for test done at "{{ lab.name }}" is ready. You can view / download your report by logging in to <a href="{{ absolute_url(path('user_login')) }}">Sugarlogger.com</a></p>
+        </td>
+    </tr>
+{% endblock %}
